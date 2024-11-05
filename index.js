@@ -25,3 +25,5 @@ const shop = new Sprite({
   scale: 2.75,
   framesMax: 6
 })
+
+
