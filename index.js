@@ -9,7 +9,7 @@ c.fillRect(0, 0, canvas.width, canvas.height)
 const gravity = 0.7
 
 class Sprite {
-  constructor({ position, velocity, color = 'red', offset}) {
+  constructor({ position, velocity, color = 'red', offset, imageSrc}) {
     this.position = position
     this.velocity = velocity
     this.height = 150
@@ -31,11 +31,29 @@ class Sprite {
     this.framesElapsed = 0
     this.framesHold = 5 
     this.dead = false
+
+    if (imageSrc) {
+      this.image = new Image()
+      this.image.src = imageSrc
+    }
   }
 
   draw() {
-    c.fillStyle = this.color
-    c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    if (this.image) {
+      // Якщо є зображення - малюємо його
+      c.drawImage(
+        this.image,
+        this.position.x,
+        this.position.y,
+        this.width,
+        this.height
+      )
+    } else {
+      // Якщо немає - малюємо прямокутник
+      c.fillStyle = this.color
+      c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+
 
     // attack box
     if (this.isAttacking){
@@ -90,7 +108,8 @@ const player = new Sprite({
   offset: {
     x: 0,
     y: 0
-  }
+  },
+  
 })
 
 const enemy = new Sprite({
